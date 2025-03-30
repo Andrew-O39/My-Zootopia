@@ -1,26 +1,34 @@
 import json
+
 from load_data import load_data # import function to load JSON data
 
 # Load JSON file
 animals_data = load_data("animals_data.json")
 
-# Iterate through the list of animals
+# Generate animal information as an HTML string
+output = " "
 for animal in animals_data:
-    details = []  # Store available fields for printing
-
     if "name" in animal:
-        details.append(f"Name: {animal['name']}")
+        output += f"Name: {animal['name']}\n"
 
     if "characteristics" in animal and "diet" in animal["characteristics"]:
-        details.append(f"Diet: {animal['characteristics']['diet']}")
+        output += f"Diet: {animal['characteristics']['diet']}\n"
 
     if "locations" in animal and isinstance(animal["locations"], list) and animal["locations"]:
-        details.append(f"Location: {animal['locations'][0]}")
+        output += f"Location: {animal['locations'][0]}\n"
 
     if "characteristics" in animal and "type" in animal["characteristics"]:
-        details.append(f"Type: {animal['characteristics']['type']}")
+        output += f"Type: {animal['characteristics']['type']}\n"
 
-    # Print details only if there are any
-    if details:
-        print("\n".join(details))
-        print()
+
+# Read "animals_template.html"
+with open("animals_template.html", "r") as template_file:
+    template_content = template_file.read()
+
+# Replace placeholder with generated animal info
+updated_html = template_content.replace("__REPLACE_ANIMALS_INFO__", output)
+
+# Write new content to animals.html
+with open("animals.html", "w") as output_file:
+    output_file.write(updated_html)
+
