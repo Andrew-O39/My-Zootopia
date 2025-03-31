@@ -37,7 +37,7 @@ with open("animals_template.html", "r") as template_file:
 # Replace placeholder with generated animal information
 updated_html = template_content.replace("__REPLACE_ANIMALS_INFO__", output)
 
-# Write new content to animals.html
+# Write new content to "animals.html"
 with open("animals.html", "w") as output_file:
     output_file.write(updated_html)
 
