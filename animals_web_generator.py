@@ -2,33 +2,35 @@ import json
 
 from load_data import load_data # import function to load JSON data
 
+def serialize_animal(animal_obj):
+    output = '' # Start with an empty string
+    output += '<li class="cards__item">\n' # Add opening <li> tag
+    output += f'  <div class="card__title">{animal_obj["name"]}</div>\n' # Add title
+    output += '  <p class="card__text">\n'
+
+    if "characteristics" in animal_obj and "diet" in animal_obj["characteristics"]:
+        output += f'<strong>Diet:</strong> {animal_obj["characteristics"]["diet"]}<br/>\n'
+
+    if "locations" in animal_obj and isinstance(animal_obj["locations"], list) and animal_obj["locations"]:
+        output += f'<strong>Location:</strong> {animal_obj["locations"][0]}<br/>\n'
+
+    if "characteristics" in animal_obj and "type" in animal_obj["characteristics"]:
+        output += f'<strong>Type:</strong> {animal_obj["characteristics"]["type"]}<br/>\n'
+
+    output += '</li>\n' # Close <li> tag
+
+    return output # Return the complete HTML string for the animal
+
+
 # Load JSON file
 animals_data = load_data("animals_data.json")
 
-# Generate animal information as a single <ul> list with <li> items
-
-output = "<ul class='cards'>\n"
+# Generate all animals' information as <li> items
+output = ""  # Initialize an empty string to store all animals' HTML
 for animal in animals_data:
-    output += "<li class='cards__item'>\n"
+    output += serialize_animal(animal)  # Append each animal's HTML
 
-    if "name" in animal:
-        output += f"<div class='card__title'>{animal['name']}</div>\n"
-
-    output += "<p class='card__text'>\n"
-
-    if "characteristics" in animal and "diet" in animal["characteristics"]:
-        output += f"<strong>Diet:</strong> {animal['characteristics']['diet']}<br/>\n"
-
-    if "locations" in animal and isinstance(animal["locations"], list) and animal["locations"]:
-        output += f" <strong>Location:</strong> {animal['locations'][0]}<br/>\n"
-
-    if "characteristics" in animal and "type" in animal["characteristics"]:
-        output += f"<strong>Type:</strong> {animal['characteristics']['type']}<br/>\n"
-
-    output += "</p>\n  </li>\n"
-output += "</ul>\n"
-
-# Read "animals_template.html"
+# Read "animals_template.html" file
 with open("animals_template.html", "r") as template_file:
     template_content = template_file.read()
 
