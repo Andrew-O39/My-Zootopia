@@ -44,10 +44,12 @@ def main():
         print("Error: No valid animal data found in 'animals_data.json'.")
         return
 
-    # Generate all animals' information as <li> items
-    output = ""  # Initialize an empty string to store all animals' HTML
+    # Generate HTML for all animals
+    output_lines = []
     for animal in animals_data:
-        output += serialize_animal(animal)  # Append each animal's HTML
+        output_lines.append(serialize_animal(animal)) # Append each animal's HTML
+    output = ''.join(output_lines)
+
     try:
     # Read "animals_template.html" file
         with open("animals_template.html", "r") as template_file:
