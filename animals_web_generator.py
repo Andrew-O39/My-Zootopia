@@ -26,22 +26,23 @@ def serialize_animal(animal_obj):
     return output # Return the complete HTML string for the animal
 
 
-# Load JSON file
-animals_data = load_data("animals_data.json")
+def main():
+    # Load JSON file
+    animals_data = load_data("animals_data.json")
 
-# Generate all animals' information as <li> items
-output = ""  # Initialize an empty string to store all animals' HTML
-for animal in animals_data:
-    output += serialize_animal(animal)  # Append each animal's HTML
+    # Generate all animals' information as <li> items
+    output = ""  # Initialize an empty string to store all animals' HTML
+    for animal in animals_data:
+        output += serialize_animal(animal)  # Append each animal's HTML
 
-# Read "animals_template.html" file
-with open("animals_template.html", "r") as template_file:
-    template_content = template_file.read()
+    # Read "animals_template.html" file
+    with open("animals_template.html", "r") as template_file:
+        template_content = template_file.read()
 
-# Replace placeholder with generated animal information
-updated_html = template_content.replace("__REPLACE_ANIMALS_INFO__", output)
+    # Replace placeholder with generated animal information
+    updated_html = template_content.replace("__REPLACE_ANIMALS_INFO__", output)
 
-# Write new content to "animals.html"
-with open("animals.html", "w") as output_file:
-    output_file.write(updated_html)
+    # Write new content to "animals.html"
+    with open("animals.html", "w") as output_file:
+        output_file.write(updated_html)
 
