@@ -5,18 +5,22 @@ from load_data import load_data # import function to load JSON data
 def serialize_animal(animal_obj):
     output = '' # Start with an empty string
     output += '<li class="cards__item">\n' # Add opening <li> tag
-    output += f'  <div class="card__title">{animal_obj["name"]}</div>\n' # Add title
-    output += '  <p class="card__text">\n'
+    output += f'<div class="card__title">{animal_obj.get("name", "Unknown Animal")}</div>\n' # Add title
+    output += '<p class="card__text">\n'
 
-    if "characteristics" in animal_obj and "diet" in animal_obj["characteristics"]:
+    # Diet
+    if animal_obj.get("characteristics") and "diet" in animal_obj["characteristics"]:
         output += f'<strong>Diet:</strong> {animal_obj["characteristics"]["diet"]}<br/>\n'
 
-    if "locations" in animal_obj and isinstance(animal_obj["locations"], list) and animal_obj["locations"]:
+    # Location
+    if isinstance(animal_obj.get("locations"), list) and animal_obj["locations"]:
         output += f'<strong>Location:</strong> {animal_obj["locations"][0]}<br/>\n'
 
-    if "characteristics" in animal_obj and "type" in animal_obj["characteristics"]:
+    # Type
+    if animal_obj.get("characteristics") and "type" in animal_obj["characteristics"]:
         output += f'<strong>Type:</strong> {animal_obj["characteristics"]["type"]}<br/>\n'
 
+    output += '</p>\n'  # Close <p> tag
     output += '</li>\n' # Close <li> tag
 
     return output # Return the complete HTML string for the animal
