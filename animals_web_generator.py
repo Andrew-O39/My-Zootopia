@@ -72,5 +72,6 @@ def main():
     except Exception as e:
         print(f"Error: Failed to write 'animals.html': {e}")
 
+# Run the main program
 if __name__ == "__main__":
     main()
