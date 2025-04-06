@@ -46,3 +46,5 @@ def main():
     with open("animals.html", "w") as output_file:
         output_file.write(updated_html)
 
+if __name__ == "__main__":
+    main()
