@@ -27,24 +27,48 @@ def serialize_animal(animal_obj):
 
 
 def main():
-    # Load JSON file
-    animals_data = load_data("animals_data.json")
+    try:
+        # Load JSON file
+        animals_data = load_data("animals_data.json")
+    except FileNotFoundError:
+        print("Error: 'animals_data.json' file not found.")
+        return
+    except json.JSONDecodeError:
+        print("Error: Failed to parse 'animals_data.json'. Is 'animals_data.json' a valid JSON file?")
+        return
+    except Exception as e:
+        print(f"Unexpected error while loading data: {e}")
+        return
+
+    if not animals_data or not isinstance(animals_data, list):
+        print("Error: No valid animal data found in 'animals_data.json'.")
+        return
 
     # Generate all animals' information as <li> items
     output = ""  # Initialize an empty string to store all animals' HTML
     for animal in animals_data:
         output += serialize_animal(animal)  # Append each animal's HTML
-
+    try:
     # Read "animals_template.html" file
-    with open("animals_template.html", "r") as template_file:
-        template_content = template_file.read()
+        with open("animals_template.html", "r") as template_file:
+            template_content = template_file.read()
+    except FileNotFoundError:
+        print("Error: 'animals_template.html' file not found.")
+        return
+    except Exception as e:
+        print(f"Unexpected error while reading template: {e}")
+        return
 
     # Replace placeholder with generated animal information
     updated_html = template_content.replace("__REPLACE_ANIMALS_INFO__", output)
 
+    try:
     # Write new content to "animals.html"
-    with open("animals.html", "w") as output_file:
-        output_file.write(updated_html)
+        with open("animals.html", "w") as output_file:
+            output_file.write(updated_html)
+        print("Successfully generated 'animals.html'")
+    except Exception as e:
+        print(f"Error: Failed to write 'animals.html': {e}")
 
 if __name__ == "__main__":
     main()
