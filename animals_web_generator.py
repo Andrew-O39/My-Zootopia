@@ -51,7 +51,7 @@ def main():
     output = ''.join(output_lines)
 
     try:
-    # Read "animals_template.html" file
+        # Read "animals_template.html" file
         with open("animals_template.html", "r") as template_file:
             template_content = template_file.read()
     except FileNotFoundError:
@@ -62,10 +62,13 @@ def main():
         return
 
     # Replace placeholder with generated animal information
+    if "__REPLACE_ANIMALS_INFO__" not in template_content:
+        print("Warning: Placeholder '__REPLACE_ANIMALS_INFO__' not found in template.")
+        return
     updated_html = template_content.replace("__REPLACE_ANIMALS_INFO__", output)
 
     try:
-    # Write new content to "animals.html"
+        # Write new content to "animals.html"
         with open("animals.html", "w") as output_file:
             output_file.write(updated_html)
         print("Successfully generated 'animals.html'")
